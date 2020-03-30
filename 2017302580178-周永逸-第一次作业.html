@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>2017302580176</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            margin: 0px;
+            background-color: #d7d4f0;
+            overflow: hidden;
+			
+        }
+    </style>
+</head>
+<body onload="start();">
+<p align="center">2017302580178 周永逸 软工四班</p>
+<table border="1" style="font-size:10px;color:black;">
+
+<caption>快捷键</caption>
+
+<tr>
+<td>放大</td>
+<td>按下W键</td>
+</tr>
+<tr>
+<td>缩小</td>
+<td>按下S键</td>
+</tr>
+<tr>
+<td>上移</td>
+<td>方向键：上键</td>
+</tr>
+<tr>
+<td>下移</td>
+<td>方向键：下键</td>
+</tr>
+<tr>
+<td>左移</td>
+<td>方向键：左键</td>
+</tr>
+<tr>
+<td>右移</td>
+<td>方向键：右键</td>
+</tr>
+</table>
+<script src="./js/three.js"></script>
+
+
+<script>
+
+   var camera;
+   var scene;
+   var renderer;
+   var mesh;
+  
+init();
+//render();
+//E();
+animate();
+document.onkeydown = function (event) {
+    var e = event || window.event || arguments.callee.caller.arguments[0];
+    if (e && e.keyCode == 40) { 
+	//下
+        mesh.position.y -=0.5;
+		render();
+    }
+    if (e && e.keyCode == 37) { 
+        //alert('左键');
+		mesh.position.x -=0.5;
+		 render();
+    }
+    if (e && e.keyCode == 39) { 
+        //alert('右键');
+		mesh.position.x +=0.5;
+		render();
+    }
+    if (e && e.keyCode == 38) { 
+        //alert('上键');
+		mesh.position.y +=0.5;
+		render();
+    }
+	if (e && e.keyCode == 87) {
+	//放大
+        mesh.position.z +=0.5;
+		render();
+    }
+	if (e && e.keyCode == 83) {
+	//缩小
+        mesh.position.z -=0.5;
+		render();
+    }
+};
+function init() {
+  
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000);
+  
+    var light = new THREE.DirectionalLight( 0xffffff );
+    light.position.set( 0, 1, 1 ).normalize();
+    scene.add(light);
+  
+    var geometry = new THREE.CubeGeometry( 10, 10, 10);
+    var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('./res/zhouyongyi.jpg') } );
+  
+    mesh = new THREE.Mesh(geometry, material );
+    mesh.position.z = -50;
+    scene.add( mesh );
+  
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+  
+    window.addEventListener( 'resize', onWindowResize, false );
+  
+    render();
+}
+/*
+function E()
+{
+	document.οnkeydοwn=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==37){ // 按 Esc 
+                mesh.position.x -= 1;
+				render();
+              }
+            if(e && e.keyCode==39){ // 按 F2 
+                 //要做的事情
+				 animateRight()
+               }            
+             if(e && e.keyCode==13){ // enter 键
+                 //要做的事情
+            }
+        }; 
+		requestAnimationFrame( E );
+}
+*/
+	    		
+
+
+function animate() {
+	mesh.rotation.x +=0.03;
+    mesh.rotation.y +=0.03;
+	mesh.position.x -=0;
+    render();
+    requestAnimationFrame( animate );
+}
+
+
+function render() {
+    renderer.render( scene, camera );
+}
+  
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    render();
+}
+</script>
+
+</body>
+</html>
